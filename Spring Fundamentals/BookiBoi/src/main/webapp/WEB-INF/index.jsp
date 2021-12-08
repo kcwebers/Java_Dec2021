@@ -31,6 +31,14 @@
         	<p>Number of Pages: <c:out value="${book.numberOfPages}"></c:out></p>
         	<p>Written in: <c:out value="${book.language}"></c:out></p>
         	<p>Description: <c:out value="${book.description}"></c:out></p>
+        	
+        	
+        	<form action="/delete/${book.id}" method="post">
+        		<input type="hidden" name="_method" value="delete">
+        		<input class="btn btn-danger" type="submit" value="Delete">
+        	</form>
+        	
+        	
         </c:forEach>
         
         

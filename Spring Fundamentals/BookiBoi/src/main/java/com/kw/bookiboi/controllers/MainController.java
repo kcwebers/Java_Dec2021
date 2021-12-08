@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -55,9 +56,44 @@ public class MainController {
     		model.addAttribute("books", books);
             return "new.jsp";
         } else {
-            bookServ.createBook(book);
+            bookServ.saveBook(book);
             return "redirect:/";
         }
     }
+	
+	// ======================================
+	// Edit Routes
+	// ======================================
+
+    @RequestMapping("/edit/{id}")
+    public String edit(
+    		@PathVariable("id") Long id, 
+    		Model model) {
+    	Book book = bookServ.findBook(id);
+    	model.addAttribute("book", book);
+    	return "edit.jsp";
+    }
+    
+    @RequestMapping(value="/update/{id}", method=RequestMethod.PUT)
+    public String update(@Valid @ModelAttribute("book") Book book, BindingResult result) {
+        if (result.hasErrors()) {
+            return "edit.jsp";
+        } else {
+            bookServ.saveBook(book);
+            return "redirect:/";
+        }
+    }	
+    
+	// ======================================
+	// Delete Route
+	// ======================================
+    
+    @RequestMapping(value="/delete/{id}", method=RequestMethod.DELETE) 
+    public String delete(@PathVariable("id") Long id) {
+    	bookServ.deleteBook(id);
+    	return "redirect:/";
+    }
+    
+    
 
 }

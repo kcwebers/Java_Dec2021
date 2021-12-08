@@ -29,8 +29,20 @@ public class BookService {
         }
     }
     
-    public Book createBook(Book b) {
+//    public Book createBook(Book b) {
+//    	return bookRepo.save(b);
+//    }
+//    
+//    public Book updateBook(Book b) {
+//    	return bookRepo.save(b);
+//    }
+    
+    public Book saveBook(Book b) {
     	return bookRepo.save(b);
+    }
+    
+    public void deleteBook(Long id) {
+    	bookRepo.deleteById(id);
     }
 	
 	
