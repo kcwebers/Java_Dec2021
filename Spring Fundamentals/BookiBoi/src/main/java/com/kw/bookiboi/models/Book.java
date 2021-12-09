@@ -1,6 +1,7 @@
 package com.kw.bookiboi.models;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,6 +10,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
@@ -68,7 +71,17 @@ public class Book {
     @JoinColumn(name="author_id")
     private Author author;
     
+    // =======================================
+    // Related Data - n:m
+    // =======================================
     
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+        name = "authors_books", 
+        joinColumns = @JoinColumn(name = "book_id"), 
+        inverseJoinColumns = @JoinColumn(name = "author_id")
+    )
+    private List<Author> authorsWhoFavorited;
     
     // =======================================
     // Constructors
@@ -96,6 +109,12 @@ public class Book {
 	}
 	public void setAuthor(Author author) {
 		this.author = author;
+	}
+	public List<Author> getAuthorsWhoFavorited() {
+		return authorsWhoFavorited;
+	}
+	public void setAuthorsWhoFavorited(List<Author> authorsWhoFavorited) {
+		this.authorsWhoFavorited = authorsWhoFavorited;
 	}
 	public Long getId() {
 		return id;

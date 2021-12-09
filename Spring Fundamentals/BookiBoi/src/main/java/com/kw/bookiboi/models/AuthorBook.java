@@ -1,7 +1,6 @@
 package com.kw.bookiboi.models;
 
 import java.util.Date;
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,32 +9,21 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
-@Table(name="authors")
-public class Author {
+@Table(name="authors_books")
+public class AuthorBook {
+
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@NotNull
-	@Size(min=2, max=75)
-	private String firstName;
-	
-	@NotNull
-	@Size(min=2, max=75)
-	private String  lastName;
-
     @Column(updatable=false)
     @DateTimeFormat(pattern="yyyy-MM-dd")
     private Date createdAt;
@@ -52,70 +40,37 @@ public class Author {
     }
     
     // =======================================
-    // Related Data - 1:n
-    // =======================================
-    
-    @OneToMany(mappedBy="author", fetch=FetchType.LAZY)
-    private List<Book> books; 
-    
-    // =======================================
     // Related Data - n:m
     // =======================================
     
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-        name = "authors_books", 
-        joinColumns = @JoinColumn(name = "author_id"), 
-        inverseJoinColumns = @JoinColumn(name = "book_id")
-    )
-    private List<Book> booksFavorited;
-    
+ 	@ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="book_id")
+ 	private Book book;
+ 	
+ 	@ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="author_id")
+ 	private Author author;
+ 	
     // =======================================
     // Constructors
     // =======================================
     
-    public Author () {}
-
-	public Author(
-			@NotNull @Size(min = 2, max = 75) String firstName,
-			@NotNull @Size(min = 2, max = 75) String lastName) {
-		this.firstName = firstName;
-		this.lastName = lastName;
+ 	public AuthorBook() {}
+ 	
+	public AuthorBook(Book book, Author author) {
+		this.book = book;
+		this.author = author;
 	}
+	
 	// =======================================
     // Getters & Setters
     // =======================================
     
-	
-	public List<Book> getBooks() {
-		return books;
-	}
-	public void setBooks(List<Book> books) {
-		this.books = books;
-	}
-	public List<Book> getBooksFavorited() {
-		return booksFavorited;
-	}
-	public void setBooksFavorited(List<Book> booksFavorited) {
-		this.booksFavorited = booksFavorited;
-	}
 	public Long getId() {
 		return id;
 	}
 	public void setId(Long id) {
 		this.id = id;
-	}
-	public String getFirstName() {
-		return firstName;
-	}
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
-	public String getLastName() {
-		return lastName;
-	}
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
 	}
 	public Date getCreatedAt() {
 		return createdAt;
@@ -129,5 +84,17 @@ public class Author {
 	public void setUpdatedAt(Date updatedAt) {
 		this.updatedAt = updatedAt;
 	}
-    
+	public Book getBook() {
+		return book;
+	}
+	public void setBook(Book book) {
+		this.book = book;
+	}
+	public Author getAuthor() {
+		return author;
+	}
+	public void setAuthor(Author author) {
+		this.author = author;
+	}
+
 }

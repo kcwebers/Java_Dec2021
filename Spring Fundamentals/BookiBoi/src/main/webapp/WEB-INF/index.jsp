@@ -24,7 +24,24 @@
     <div class="container"> <!-- Beginning of Container -->
         <h1>You added a db successfully!!</h1>
         
-        <p><c:out value="${books}"></c:out></p>
+        <form action="/processFavorite" method="post">
+               	<select name="book_id">
+		        <c:forEach var="book" items="${books }">
+		        	<option value="${book.id }">
+						<c:out value="${book.title}"></c:out>
+					</option>
+	        	</c:forEach>
+		        </select>
+        
+        	 	<select name="author_id">
+		        <c:forEach var="author" items="${authors }">
+		        	<option value="${author.id }">
+						<c:out value="${author.firstName}"></c:out> <c:out value="${author.lastName}"></c:out>
+					</option>
+	        	</c:forEach>
+		        </select>
+        	<input type="submit" class="btn btn-info" value="Add Favorite!">
+        </form>
         
         <c:forEach var="book" items="${books}">
         	<h2><c:out value="${book.title}"></c:out></h2>
@@ -38,6 +55,8 @@
         		<input type="hidden" name="_method" value="delete">
         		<input class="btn btn-danger" type="submit" value="Delete">
         	</form>
+        	
+        	
         	
         	
         </c:forEach>
