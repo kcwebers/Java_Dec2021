@@ -6,19 +6,17 @@ import java.util.Optional;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
-import com.kw.bookiboi.models.Book;
+import com.kw.bookiboi.models.Author;
 
 @Repository
-public interface BookRepo extends CrudRepository<Book, Long> {
+public interface AuthorRepo extends CrudRepository<Author, Long> {
 
-	List<Book> findByTitleContaining(String title);
+	List<Author> findAll();
 	
-	List<Book> findAll();
-	
-	Optional<Book> findById(Long id);
+	Optional<Author> findById(Long id);
 	
 	void deleteById(Long id);
 	
-	//	Book save(Book book);
+	//	Author save(Author author);
 	
 }

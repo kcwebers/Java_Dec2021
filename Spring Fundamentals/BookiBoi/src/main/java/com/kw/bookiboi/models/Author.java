@@ -1,6 +1,7 @@
 package com.kw.bookiboi.models;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -8,43 +9,30 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
-@Table(name="books")
-public class Book {
-	
+@Table(name="authors")
+public class Author {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
 	@NotNull
-	@Size(min=2, message="Title must be at least 2 characters long!")
-	private String title;
+	@Size(min=2, max=75)
+	private String firstName;
 	
 	@NotNull
-	@Size(max=500)
-	private String description;
-	
-	@NotNull
-	@Size(min=2, max=100)
-	private String language;
-	
-	@NotNull
-	@Min(value=50, message="The minimum number of pages must be at least 50!")
-	@Max(value=1500, message="Too Long!!")
-	private Integer numberOfPages;
-	
+	@Size(min=2, max=75)
+	private String  lastName;
+
     @Column(updatable=false)
     @DateTimeFormat(pattern="yyyy-MM-dd")
     private Date createdAt;
@@ -64,9 +52,8 @@ public class Book {
     // Related Data - 1:n
     // =======================================
     
-    @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="author_id")
-    private Author author;
+    @OneToMany(mappedBy="author", fetch=FetchType.LAZY)
+    private List<Book> books; 
     
     
     
@@ -74,28 +61,24 @@ public class Book {
     // Constructors
     // =======================================
     
-    public Book() {}
-    
-    public Book(
-    		@NotNull @Size(min = 2) String title, 
-    		@NotNull @Size(max = 500) String description,
-			@NotNull @Size(min = 2, max = 100) String language, 
-			@NotNull @Min(50) @Max(1500) Integer numberOfPages) {
-		this.title = title;
-		this.description = description;
-		this.language = language;
-		this.numberOfPages = numberOfPages;
+    public Author () {}
+
+	public Author(
+			@NotNull @Size(min = 2, max = 75) String firstName,
+			@NotNull @Size(min = 2, max = 75) String lastName) {
+		this.firstName = firstName;
+		this.lastName = lastName;
 	}
-    
 	// =======================================
     // Getters & Setters
     // =======================================
     
-	public Author getAuthor() {
-		return author;
+	
+	public List<Book> getBooks() {
+		return books;
 	}
-	public void setAuthor(Author author) {
-		this.author = author;
+	public void setBooks(List<Book> books) {
+		this.books = books;
 	}
 	public Long getId() {
 		return id;
@@ -103,29 +86,17 @@ public class Book {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	public String getTitle() {
-		return title;
+	public String getFirstName() {
+		return firstName;
 	}
-	public void setTitle(String title) {
-		this.title = title;
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
 	}
-	public String getDescription() {
-		return description;
+	public String getLastName() {
+		return lastName;
 	}
-	public void setDescription(String description) {
-		this.description = description;
-	}
-	public String getLanguage() {
-		return language;
-	}
-	public void setLanguage(String language) {
-		this.language = language;
-	}
-	public Integer getNumberOfPages() {
-		return numberOfPages;
-	}
-	public void setNumberOfPages(Integer numberOfPages) {
-		this.numberOfPages = numberOfPages;
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
 	}
 	public Date getCreatedAt() {
 		return createdAt;
@@ -139,5 +110,5 @@ public class Book {
 	public void setUpdatedAt(Date updatedAt) {
 		this.updatedAt = updatedAt;
 	}
-	
+    
 }

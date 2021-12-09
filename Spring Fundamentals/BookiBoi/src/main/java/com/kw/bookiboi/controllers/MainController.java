@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.kw.bookiboi.models.Author;
 import com.kw.bookiboi.models.Book;
 import com.kw.bookiboi.services.BookService;
 
@@ -21,11 +22,6 @@ public class MainController {
 	private final BookService bookServ;
 	public MainController(BookService bookServ) {
 		this.bookServ = bookServ;
-	}
-	
-	@RequestMapping("/data")
-	public String data() {
-		return "Welll hello there!";
 	}
 	
 	@RequestMapping("/")
@@ -42,18 +38,16 @@ public class MainController {
 	    
     @RequestMapping("/new")
     public String newBook(@ModelAttribute("banana") Book book, Model model) {
-//    	model.addAttribute("book", new Book());
-    	List<Book> books = bookServ.allBooks();
-		model.addAttribute("books", books);
+    	List<Author> authors = bookServ.allAuthors();
+		model.addAttribute("authors", authors);
         return "new.jsp";
     }
     
     @RequestMapping(value="/create", method=RequestMethod.POST)
     public String create(@Valid @ModelAttribute("banana") Book book, BindingResult result, Model model) {
         if (result.hasErrors()) {
-        	System.out.println(result);
-        	List<Book> books = bookServ.allBooks();
-    		model.addAttribute("books", books);
+        	List<Author> authors = bookServ.allAuthors();
+    		model.addAttribute("authors", authors);
             return "new.jsp";
         } else {
             bookServ.saveBook(book);

@@ -44,20 +44,23 @@
 		        <form:label path="numberOfPages">Pages</form:label>
 		        <form:errors path="numberOfPages"/>     
 		        <form:input type="number" path="numberOfPages"/>
+		    </p>
+		    <p>
+		        <form:label path="author">Author</form:label>
+		        <form:errors path="author"/>     
+		        <form:select path="author">
+			        <c:forEach var="author" items="${authors }">
+			        	<form:option value="${author.id }">
+							<c:out value="${author.firstName}"></c:out> <c:out value="${author.lastName}"></c:out>
+						</form:option>
+		        	</c:forEach>
+		        </form:select>
 		    </p>    
 		    <input type="submit" value="Submit"/>
-		</form:form>   
+		</form:form>
 		
-		<c:forEach var="book" items="${books}">
-        	<h2><c:out value="${book.title}"></c:out></h2>
-        	<p>Number of Pages: <c:out value="${book.numberOfPages}"></c:out></p>
-        	<p>Written in: <c:out value="${book.language}"></c:out></p>
-        	<p>Description: <c:out value="${book.description}"></c:out></p>
-        </c:forEach>
-         
-
-
-
+		<p><c:out value ="${authors }"></c:out></p>
+		
 	</div>
 </body>
 </html>

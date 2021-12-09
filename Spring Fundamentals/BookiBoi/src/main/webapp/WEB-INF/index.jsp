@@ -31,6 +31,7 @@
         	<p>Number of Pages: <c:out value="${book.numberOfPages}"></c:out></p>
         	<p>Written in: <c:out value="${book.language}"></c:out></p>
         	<p>Description: <c:out value="${book.description}"></c:out></p>
+        	<p>Author: <c:out value="${book.author.firstName}"></c:out> <c:out value="${book.author.lastName}"></c:out></p>
         	
         	
         	<form action="/delete/${book.id}" method="post">

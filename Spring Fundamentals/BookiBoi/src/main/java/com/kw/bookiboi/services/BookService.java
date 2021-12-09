@@ -5,15 +5,23 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
+import com.kw.bookiboi.models.Author;
 import com.kw.bookiboi.models.Book;
+import com.kw.bookiboi.repositories.AuthorRepo;
 import com.kw.bookiboi.repositories.BookRepo;
 
 @Service
 public class BookService {
 
 	private final BookRepo bookRepo;
-	public BookService(BookRepo bookRepo) {
+	private final AuthorRepo authRepo;
+	public BookService(BookRepo bookRepo, AuthorRepo authRepo) {
 		this.bookRepo = bookRepo;
+		this.authRepo = authRepo;
+	}
+	
+	public List<Author> allAuthors() {
+		return authRepo.findAll();
 	}
 	
 	public List<Book> allBooks() {
